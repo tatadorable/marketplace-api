@@ -30,8 +30,6 @@ Contoh body `POST /api/pesanan.php` (`Content-Type: application/json`):
 ## Postman
 Import `postman/Marketplace_API.postman_collection.json`. Variabel `base_url` default `http://localhost/marketplace-api/api`.
 
-## Keamanan
-`config/config.php` ada di `.gitignore` — **jangan pernah di-commit**. Repository ini tidak berisi password apa pun.
 
 ## Struktur
 ```
