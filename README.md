@@ -22,8 +22,8 @@ REST API untuk database marketplace Soal 11. Menghasilkan JSON, memakai *prepare
 Contoh body `POST /api/pesanan.php` (`Content-Type: application/json`):
 ```json
 {
-  "pembeli": {"nama": "Budi Santoso", "email": "budi@example.com", "telepon": "081234567890", "alamat": "Jl. Merdeka No. 10, Bengkulu"},
-  "items": [{"id_produk": 1, "jumlah": 2}, {"id_produk": 3, "jumlah": 1}]
+  "pembeli": {"nama": "nana chimi", "email": "nachimi@gmail.com", "telepon": "081234567890", "alamat": "Jl. Merpati No. 10, Bengkulu"},
+  "items": [{"id_produk": 1, "jumlah": 2}]
 }
 ```
 
