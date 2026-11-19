@@ -38,5 +38,4 @@ config/     config.example.php
 database/   marketplace.sql
 docs/       DOKUMEN_RANCANGAN_API.md, LAPORAN_PENGUJIAN.md
 postman/    Marketplace_API.postman_collection.json
-screenshots/ (taruh screenshot pengujian di sini)
 ```
