@@ -1,0 +1,337 @@
+{
+  "info": {
+    "name": "Tokoharu Marketplace REST API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost/marketplace-api/api"
+    },
+    {
+      "key": "kode_pesanan",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "1. GET semua produk",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/produk.php",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "produk.php"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "2. GET detail produk (id=1)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/produk.php?id=1",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "produk.php"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "1"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "3. GET daftar kategori",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/kategori.php",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "kategori.php"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "4. POST buat pesanan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/pesanan.php",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pesanan.php"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pembeli\": {\n    \"nama\": \"Budi Santoso\",\n    \"email\": \"budi@example.com\",\n    \"telepon\": \"081234567890\",\n    \"alamat\": \"Jl. Merdeka No. 10, Bengkulu\"\n  },\n  \"items\": [\n    {\n      \"id_produk\": 1,\n      \"jumlah\": 2\n    },\n    {\n      \"id_produk\": 3,\n      \"jumlah\": 1\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201', () => pm.response.to.have.status(201));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);",
+              "pm.collectionVariables.set('kode_pesanan', pm.response.json().data.kode_pesanan);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "5. GET pesanan by kode",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/pesanan.php?kode={{kode_pesanan}}",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pesanan.php"
+          ],
+          "query": [
+            {
+              "key": "kode",
+              "value": "{{kode_pesanan}}"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "6. [Error] Produk tidak ditemukan",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/produk.php?id=999",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "produk.php"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "999"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 404', () => pm.response.to.have.status(404));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "7. [Error] ID tidak valid",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{base_url}}/produk.php?id=abc",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "produk.php"
+          ],
+          "query": [
+            {
+              "key": "id",
+              "value": "abc"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 400', () => pm.response.to.have.status(400));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "8. [Error] Validasi pesanan",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/pesanan.php",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pesanan.php"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pembeli\": {\n    \"nama\": \"\",\n    \"email\": \"x\"\n  },\n  \"items\": [\n    {\n      \"id_produk\": 1,\n      \"jumlah\": 0\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 422', () => pm.response.to.have.status(422));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "9. [Error] Stok tidak cukup",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{base_url}}/pesanan.php",
+          "host": [
+            "{{base_url}}"
+          ],
+          "path": [
+            "pesanan.php"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"pembeli\": {\n    \"nama\": \"Rina\",\n    \"email\": \"rina@example.com\",\n    \"telepon\": \"08123\",\n    \"alamat\": \"Bengkulu\"\n  },\n  \"items\": [\n    {\n      \"id_produk\": 5,\n      \"jumlah\": 999\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 409', () => pm.response.to.have.status(409));",
+              "pm.test('Response JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
